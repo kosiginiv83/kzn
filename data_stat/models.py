@@ -8,10 +8,15 @@ class VoteQuestion(models.Model):
     image = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=100, verbose_name='Изображение', null=True, blank=True)
     time_begin = models.DateTimeField(auto_now_add=True, verbose_name='Время начала')
     time_end = models.DateTimeField(auto_now=True, verbose_name='Время окончания')
+    preamble = models.TextField()
     
     class Meta:
         verbose_name = 'Голосование - вопрос'
         verbose_name_plural = 'Голосование - вопросы'
+        
+    def __str__(self):
+        return self.question
+        
     
 class VoteAnswer(models.Model):
     vote_question = models.ForeignKey(VoteQuestion, on_delete=models.CASCADE, verbose_name='Вопрос')
@@ -22,13 +27,20 @@ class VoteAnswer(models.Model):
         verbose_name = 'Голосование - ответ'
         verbose_name_plural = 'Голосование - ответы'
         
+    def __str__(self):
+        return ' - '.join(self.vote_question, self.text)
+        
 
 class Quiz(models.Model):
     questions = models.ManyToManyField(VoteAnswer, verbose_name='Вопросы')
+    preamble = models.TextField()
     
     class Meta:
-        verbose_name = 'Вопрос'
-        verbose_name_plural = 'Вопросы'
+        verbose_name = 'Опросник'
+        verbose_name_plural = 'Опросник'
+        
+    def __str__(self):
+        return self.questions
         
 
 types = (
@@ -42,8 +54,11 @@ class QuizQuestion(models.Model):
     type = models.IntegerField(verbose_name='Тип вопроса', choices=types)
     
     class Meta:
-        verbose_name = 'Тип вопроса'
-        verbose_name_plural = 'Тип вопроса'
+        verbose_name = 'Опросник - вопрос'
+        verbose_name_plural = 'Опросник - вопрос'
+        
+    def __str__(self):
+        return ' - '.join(self.quiz, self.text)
         
     
 class QuizAnswer(models.Model):
@@ -53,6 +68,9 @@ class QuizAnswer(models.Model):
     class Meta:
         verbose_name = 'Голосование - вопрос'
         verbose_name_plural = 'Голосование - вопросы'
+        
+    def __str__(self):
+        return ' - '.join(self.quiz_question, self.text)
     
 
 class VoteUsersAnswer(models.Model):
@@ -62,6 +80,9 @@ class VoteUsersAnswer(models.Model):
     class Meta:
         verbose_name = 'Голосование - список ответов'
         verbose_name_plural = 'Голосование - список ответов'
+        
+    def __str__(self):
+        return ' - '.join(self.vote_answer, self.user_id)
     
     
 class QuizUsersAnswer(models.Model):
@@ -72,3 +93,6 @@ class QuizUsersAnswer(models.Model):
     class Meta:
         verbose_name = 'Вопросник - список ответов'
         verbose_name_plural = 'Вопросник - список ответов'
+        
+    def __str__(self):
+        return self.answer
