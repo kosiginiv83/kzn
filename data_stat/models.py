@@ -8,7 +8,7 @@ class VoteQuestion(models.Model):
     image = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=100, verbose_name='Изображение', null=True, blank=True)
     time_begin = models.DateTimeField(auto_now_add=True, verbose_name='Время начала')
     time_end = models.DateTimeField(auto_now=True, verbose_name='Время окончания')
-    preamble = models.TextField()
+    preamble = models.TextField(blank=True)
     
     class Meta:
         verbose_name = 'Голосование - вопрос'
@@ -28,12 +28,12 @@ class VoteAnswer(models.Model):
         verbose_name_plural = 'Голосование - ответы'
         
     def __str__(self):
-        return ' - '.join(self.vote_question, self.text)
+        return ' - '.join(map(str, [self.vote_question, self.text]))
         
 
 class Quiz(models.Model):
     questions = models.ManyToManyField(VoteAnswer, verbose_name='Вопросы')
-    preamble = models.TextField()
+    preamble = models.TextField(blank=True)
     
     class Meta:
         verbose_name = 'Опросник'
@@ -58,7 +58,7 @@ class QuizQuestion(models.Model):
         verbose_name_plural = 'Опросник - вопрос'
         
     def __str__(self):
-        return ' - '.join(self.quiz, self.text)
+        return self.text
         
     
 class QuizAnswer(models.Model):
@@ -70,7 +70,7 @@ class QuizAnswer(models.Model):
         verbose_name_plural = 'Голосование - вопросы'
         
     def __str__(self):
-        return ' - '.join(self.quiz_question, self.text)
+        return ' - '.join(map(str, [self.quiz_question, self.text]))
     
 
 class VoteUsersAnswer(models.Model):
@@ -82,7 +82,7 @@ class VoteUsersAnswer(models.Model):
         verbose_name_plural = 'Голосование - список ответов'
         
     def __str__(self):
-        return ' - '.join(self.vote_answer, self.user_id)
+        return ' - '.join(map(str, [self.vote_answer, self.user_id]))
     
     
 class QuizUsersAnswer(models.Model):
