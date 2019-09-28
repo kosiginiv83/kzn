@@ -12,8 +12,6 @@ class VoteAnswerTabularInline(admin.TabularInline):
 
 @admin.register(VoteQuestion)
 class VoteQuestionAdmin(admin.ModelAdmin):
-    list_display = ('text',)
-    list_display_links = ('text',)
     inlines = [VoteAnswerTabularInline, ]
 
 
