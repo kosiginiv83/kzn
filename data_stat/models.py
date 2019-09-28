@@ -5,7 +5,7 @@ from django.utils import timezone
         
 class VoteQuestion(models.Model):
     question = models.CharField(max_length=100, verbose_name='Текст вопроса')
-    image = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=100, verbose_name='Изображение')
+    image = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=100, verbose_name='Изображение', null=True, blank=True)
     time_begin = models.DateTimeField(auto_now_add=True, verbose_name='Время начала')
     time_end = models.DateTimeField(auto_now=True, verbose_name='Время окончания')
     
@@ -16,7 +16,7 @@ class VoteQuestion(models.Model):
 class VoteAnswer(models.Model):
     vote_question = models.ForeignKey(VoteQuestion, on_delete=models.CASCADE, verbose_name='Вопрос')
     text = models.CharField(max_length=30, verbose_name='Ответ')
-    image = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=100, verbose_name='Изображение')
+    image = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=100, verbose_name='Изображение', null=True, blank=True)
     
     class Meta:
         verbose_name = 'Голосование - ответ'
