@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'data_stat',
     'rest_framework',
     'phones',
+    'djangobower',
+    'admin_tools_stats',
+    'django_nvd3',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +138,18 @@ REST_FRAMEWORK = {
 import django_heroku
 
 django_heroku.settings(locals())
+
+
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'bower_components')
+
+BOWER_INSTALLED_APPS = (
+    'jquery',
+    'jquery-ui',
+    'd3',
+    'nvd3',
+)
+
+# STATICFILES_FINDERS = (
+#     'djangobower.finders.BowerFinder',
+# )
