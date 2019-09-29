@@ -12,7 +12,6 @@ class VoteQuestionViewSet(viewsets.ModelViewSet):
     @decorators.action(methods=['get'], detail=False, url_path='current', url_name='current')
     def current(self, request):
         instance = self.queryset.filter(time_begin__lte=datetime.datetime.now(), time_end__gte=datetime.datetime.now()).first()
-        print(instance)
         return response.Response(self.serializer_class(instance).data)
 
 
