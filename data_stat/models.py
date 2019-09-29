@@ -7,8 +7,8 @@ class VoteQuestion(models.Model):
     question = models.CharField(max_length=100, verbose_name='Текст вопроса')
     image = models.ImageField(upload_to='uploads/', height_field=None, width_field=None, max_length=100,
                               verbose_name='Изображение', null=True, blank=True)
-    time_begin = models.DateTimeField(auto_now_add=True, verbose_name='Время начала')
-    time_end = models.DateTimeField(auto_now=True, verbose_name='Время окончания')
+    time_begin = models.DateTimeField(verbose_name='Время начала')
+    time_end = models.DateTimeField(verbose_name='Время окончания')
     preamble = models.TextField(blank=True)
 
     class Meta:

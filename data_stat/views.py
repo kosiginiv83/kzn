@@ -1,13 +1,20 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, decorators, response
 from .models import VoteQuestion, VoteAnswer, Quiz, QuizAnswer, QuizQuestion, QuizUsersAnswer, VoteUsersAnswer
 from .serializers import VoteQuestionSerializer, VoteAnswerSerializer, QuizSerializer, QuizQuestionSerializer, \
     QuizAnswerSerializer, VoteUsersAnswerSerializer, QuizUsersAnswerSerializer
-
+import datetime
 
 class VoteQuestionViewSet(viewsets.ModelViewSet):
     serializer_class = VoteQuestionSerializer
     queryset = VoteQuestion.objects.all()
     http_method_names = ['get', ]
+
+    @decorators.action(methods=['get'], detail=False, url_path='current', url_name='current')
+    def current(self, request):
+        instance = self.queryset.filter(time_begin__lte=datetime.datetime.now(), time_end__gte=datetime.datetime.now()).first()
+        print(instance)
+        return response.Response(self.serializer_class(instance).data)
+
 
 
 class VoteAnswerViewSet(viewsets.ModelViewSet):
